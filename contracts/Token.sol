@@ -7,6 +7,11 @@ contract Token is ERC20 {
     address payable public owner;
     address public creator;
 
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Token: Only the owner can call this function");
+        _;
+    }
+
     constructor(
         address _creator,
         string memory _name,
@@ -18,4 +23,9 @@ contract Token is ERC20 {
 
         _mint(msg.sender, _totalSupply);
     }
-}
+
+    // Function to transfer ownership of the contract
+    function transferOwnership(address payable newOwner) external {
+        owner = newOwner;
+    }
+}   

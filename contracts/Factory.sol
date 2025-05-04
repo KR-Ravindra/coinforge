@@ -117,7 +117,7 @@ contract Factory {
         // Transfer tokens to buyer.
         Token(_token).transfer(msg.sender, _amount);
 
-        updateCreatorTokenAmount(sale.creator, _token, _amount, sale.name);
+        updateCreatorTokenAmount(sale.creator, _token, _amount);
         addTokenToUser(msg.sender, _token, _amount, sale.name);
 
         emit Buy(_token, _amount);
@@ -127,15 +127,10 @@ contract Factory {
     function updateCreatorTokenAmount(
         address _creator,
         address _token,
-        uint256 _amount,
-        string memory _name
+        uint256 _amount
     ) internal {
         require(msg.sender != _creator, "Factory: Creator cannot buy unless token is transferred");
-        UserOwnedTokens memory userOwnedToken = UserOwnedTokens(
-            _name,
-            _token,
-            _amount
-        );
+
 
         for (uint256 i = 0; i < userOwnedTokensMapping[_creator].length; i++) {
             if (userOwnedTokensMapping[_creator][i].token == _token) {
@@ -198,9 +193,34 @@ contract Factory {
         (bool success, ) = payable(owner).call{value: _amount}("");
         require(success, "Factory: ETH transfer failed");
     }
+function transferToken(address _token, address _newOwner) external payable {
+    TokenSale storage sale = tokenToSale[_token];
+
+    require(msg.sender == sale.creator, "Factory: Only the creator can transfer ownership");
+    require(msg.sender != _newOwner, "Factory: Cannot transfer to self");
+
+    Token token = Token(_token);
+
+    token.transferOwnership(payable(_newOwner));
+    sale.creator = _newOwner;
+
+    // Update the userOwnedTokensMapping
+    // Remove the token from the current owner's mapping
+    for (uint256 i = 0; i < userOwnedTokensMapping[msg.sender].length; i++) {
+        if (userOwnedTokensMapping[msg.sender][i].token == _token) {
+            // Remove the token from the current owner
+            userOwnedTokensMapping[msg.sender][i] = userOwnedTokensMapping[msg.sender][userOwnedTokensMapping[msg.sender].length - 1];
+            userOwnedTokensMapping[msg.sender].pop();
+            break;
+        }
+    }
+    addTokenToUser(_newOwner, _token, TOKEN_LIMIT, sale.name);
+
+}
 
     function getTokensOwnedByUser(address _user) external view returns (UserOwnedTokens[] memory) {
         return userOwnedTokensMapping[_user];
     }
+
 
 }

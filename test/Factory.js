@@ -193,4 +193,46 @@ describe("Factory", function () {
     console.log("User Owned Tokens: ", await factory.getTokensOwnedByUser(deployer.address))
     });
   })
+
+  it("Transfer ownership of token as token.owner()", async function () {
+    const { factory, token, creator, buyer } = await loadFixture(buyTokenFixture);
+
+    const currentOwner = await token.owner();
+    const buyerAddress = await buyer.address;
+    const tokenAddress = await token.getAddress();
+    console.log("Current Owner: ", currentOwner);
+    console.log("Buyer Address: ",  buyerAddress);
+    console.log("Token Address: ", tokenAddress);
+    console.log("Token on current owner: ", await factory.getTokensOwnedByUser(currentOwner));
+    console.log("Token on buyer: ", await factory.getTokensOwnedByUser(buyerAddress));
+
+
+    const transaction = await factory.connect(creator).transferToken(tokenAddress, buyerAddress);
+    await transaction.wait();
+    const newOwner = await token.owner();
+    console.log("New Owner: ", newOwner);
+    expect(newOwner).to.equal(buyer.address);
+
+    console.log("Token on old owner: ", await factory.getTokensOwnedByUser(currentOwner));
+    console.log("Token on buyer: ", await factory.getTokensOwnedByUser(buyerAddress));
+
+});
+
+it("Should transfer token ownership", async function () {
+  const { factory, token, creator, buyer } = await loadFixture(buyTokenFixture);
+
+  const tokenAddress = await token.getAddress();
+
+  // Ensure the creator is the current owner
+  const sale = await factory.tokenToSale(tokenAddress);
+  expect(sale.creator).to.equal(creator.address);
+
+  // Transfer ownership
+  await factory.connect(creator).transferToken(tokenAddress, buyer.address);
+
+  // Verify the new owner
+  const updatedSale = await factory.tokenToSale(tokenAddress);
+  expect(updatedSale.creator).to.equal(buyer.address);
+});
+
 })
