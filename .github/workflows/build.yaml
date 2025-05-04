@@ -3,7 +3,7 @@ name: Build, Push and Deploy CoinForge
 on:
   push:
     branches:
-      - main
+      - release
   workflow_dispatch:
 
 jobs:
@@ -60,7 +60,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '23.11.0'
-          
+
       - name: Checkout code
         uses: actions/checkout@v3
 
