@@ -24,7 +24,7 @@
 `$ npx hardhat node`
 
 ### 5. Run deployment script
-In a separate terminal execute:
+In a separate terminal execute for local test:
 
 `$ npx hardhat ignition deploy ignition/modules/Factory.js --network localhost`
 
@@ -32,11 +32,30 @@ If you have previously deployed you may want to append `--reset` at the end:
 
 `$ npx hardhat ignition deploy ignition/modules/Factory.js --network localhost --reset`
 
+If you want to make changes at remote, use `--network remote`
+
 ### 6. Start frontend
 `$ npm run dev`
 
 
 ## About porject
 
+This project, CoinForge, aims to create a decentralized marketplace for the simplified
+creation and immediate trading of novel digital assets.
 
-Factory - for creating coins
+This project is to build a decentralized marketplace, CoinForge, where users can easily
+define and launch new digital assets. The marketplace's core features will be:
+
+1. Streamlined Asset Definition: An intuitive interface for users to specify the
+properties of their digital asset for listing on the marketplace
+2. Automated Trading Mechanism: Implementing an innovative contract-based
+system that facilitates the immediate buying and selling of these assets within
+the marketplace based on a predefined algorithm or model.
+3. Basic Marketplace Interface: A web interface allowing users to connect their
+wallets and interact with the marketplace's asset creation and trading
+functionalities.
+
+The initial scope will concentrate on these fundamental marketplace aspects, with
+potential future expansions considering features like asset discovery, community
+engagement, and enhanced trading tools.
+
