@@ -88,7 +88,7 @@ jobs:
 
       - name: Build and push Docker image for Coinforge Frontend
         run: |
-          docker build ${{ secrets.DOCKER_USERNAME }}/coinforge:${{ env.new_version }}
+          docker build  -t ${{ secrets.DOCKER_USERNAME }}/coinforge:${{ env.new_version }} .
           docker push ${{ secrets.DOCKER_USERNAME }}/coinforge:${{ env.new_version }}
           docker tag ${{ secrets.DOCKER_USERNAME }}/coinforge:${{ env.new_version }} ${{ secrets.DOCKER_USERNAME }}/coinforge:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/coinforge:latest
