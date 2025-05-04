@@ -56,6 +56,12 @@ header .brand {
   transform: rotate(-5deg);
 }
 
+.brand {
+  font-family: "Nabla";
+  font-size: 2rem;
+  color: yellow;
+}
+
 /* BUTTON STYLES */
 
 .btn--fancy,
@@ -81,7 +87,7 @@ main .create .btn--fancy {
 
 .btn--fancy:hover,
 input[type="submit"]:hover {
-  transform: scale(1.2);
+  transform: scale(1.5);
 }
 
 /* MAIN LAYOUT */
@@ -105,6 +111,7 @@ main .create {
 
 main .listings {
   grid-column: 1 / 13;
+  margin-bottom: 8em;
 }
 
 main .listings h1 {
@@ -119,6 +126,7 @@ main .listings h1 {
   gap: 1em;
   place-content: center;
   text-align: center;
+  margin-top: 5em;
 }
 
 .tokens p {
@@ -143,7 +151,8 @@ main .listings h1 {
 }
 
 .token:hover {
-  border: 1px solid var(--foreground);
+  /* border: 1px solid var(--foreground); */
+  transform: scale(1.10);
 }
 
 @keyframes blink {
@@ -279,6 +288,13 @@ main .listings h1 {
 }
 
 .horizantalList{
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2em;
+}
+
+.userOwnedTokensList{
   flex-direction: row;
   justify-content: space-between;
   align-items: center;

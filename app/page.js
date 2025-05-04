@@ -92,7 +92,8 @@ export default function Home() {
 
   useEffect(() => {
     loadBlockchainData()
-  }, [showCreate, showTrade])
+    updateUserOwnedTokens()
+  }, [showCreate, showTrade, showUserOwnedTokens])
 
   return (
     <div className="page">
@@ -104,14 +105,14 @@ export default function Home() {
             {!factory ? (
               "[ contract not deployed ]"
             ) : !account ? (
-              "[ please connect ]"
+              "[ Wallet Connection Pending... ]"
             ) : (
               "[ Forge a new token ]"
             )}
           </button>
         </div>
         {account && (
-          <div className="UserOwnedTokens">
+          <div className="listings">
             <div className="userOwnedTokensContainer">
               <button
                 onClick={() => {
@@ -124,15 +125,15 @@ export default function Home() {
                 }}
                 className="btn--fancy"
               >
-                <p>Check your tokens</p>
+                <p>View your tokens</p>
               </button>
 
               {showUserOwnedTokens && (
-                <div className="userOwnedTokensList">
+                <div className="tokens">
                   {userOwnedTokens.map((token, index) => (
                     <UserToken
                       token = {token.token}
-                      amount = {token.amount}
+                      amount = {token.amount ? token.amount : 1}
                       name = {token.name}
                       image = {`image-${token.name}`}
                       key = {index}
@@ -142,16 +143,17 @@ export default function Home() {
               )}
             </div>
           </div>
+          
         )}
-
+       { account && (
         <div className="listings">
-          <h1>All Tokens on the Launchpad</h1>
+          <p className="brand">All Tokens on the Launchpad</p>
 
           <div className="tokens">
             {!account ? (
-              <p>please connect wallet</p>
+              <p className="brand">Awaiting wallet connection</p>
             ) : tokens.length === 0 ? (
-              <p>No tokens listed</p>
+              <p className="brand">No tokens listed</p>
             ) : (
               tokens.map((token, index) => (
                 <Token
@@ -163,6 +165,7 @@ export default function Home() {
             )}
           </div>
         </div>
+        )}
 
         {showCreate && (
           <List toggleCreate={toggleCreate} fee={fee} provider={provider} factory={factory} />
