@@ -15,6 +15,14 @@ contract Factory {
     address[] public tokens;
     mapping(address => TokenSale) public tokenToSale;
 
+    struct UserOwnedTokens {
+        string name;
+        address token;
+        uint256 amount;
+    }
+
+    mapping(address => UserOwnedTokens[]) public userOwnedTokensMapping;
+
     struct TokenSale {
         address token;
         string name;
@@ -71,6 +79,8 @@ contract Factory {
             true
         );
 
+        addTokenToUser(msg.sender, address(token), TOKEN_LIMIT, _name);
+
         // Save the sale to mapping.
         tokenToSale[address(token)] = sale;
 
@@ -78,9 +88,11 @@ contract Factory {
     }
 
     function buy(address _token, uint256 _amount) external payable {
+    
         TokenSale storage sale = tokenToSale[_token];
 
         require(sale.isOpen == true, "Factory: Buying closed");
+        require(msg.sender != sale.creator, "Factory: Creator cannot buy unless token is transferred");
         require(_amount >= 1 ether, "Factory: Amount too low");
         require(_amount <= 10000 ether, "Factory: Amount exceeded");
 
@@ -105,7 +117,60 @@ contract Factory {
         // Transfer tokens to buyer.
         Token(_token).transfer(msg.sender, _amount);
 
+        updateCreatorTokenAmount(sale.creator, _token, _amount, sale.name);
+        addTokenToUser(msg.sender, _token, _amount, sale.name);
+
         emit Buy(_token, _amount);
+    }
+
+
+    function updateCreatorTokenAmount(
+        address _creator,
+        address _token,
+        uint256 _amount,
+        string memory _name
+    ) internal {
+        require(msg.sender != _creator, "Factory: Creator cannot buy unless token is transferred");
+        UserOwnedTokens memory userOwnedToken = UserOwnedTokens(
+            _name,
+            _token,
+            _amount
+        );
+
+        for (uint256 i = 0; i < userOwnedTokensMapping[_creator].length; i++) {
+            if (userOwnedTokensMapping[_creator][i].token == _token) {
+                userOwnedTokensMapping[_creator][i].amount -= _amount;
+                break;
+            }
+        }
+        
+    }
+
+    function addTokenToUser(
+        address _user,
+        address _token,
+        uint256 _amount,
+        string memory _name
+    ) internal {
+        UserOwnedTokens memory userOwnedToken = UserOwnedTokens(
+            _name,
+            _token,
+            _amount
+        );
+
+        bool tokenFound = false;
+
+        for (uint256 i = 0; i < userOwnedTokensMapping[_user].length; i++) {
+            if (userOwnedTokensMapping[_user][i].token == _token) {
+                userOwnedTokensMapping[_user][i].amount += _amount;
+                tokenFound = true;
+                break;
+            }
+        }
+
+        if (!tokenFound) {
+            userOwnedTokensMapping[_user].push(userOwnedToken);
+        }
     }
 
     function deposit(address _token) external {
@@ -133,4 +198,9 @@ contract Factory {
         (bool success, ) = payable(owner).call{value: _amount}("");
         require(success, "Factory: ETH transfer failed");
     }
+
+    function getTokensOwnedByUser(address _user) external view returns (UserOwnedTokens[] memory) {
+        return userOwnedTokensMapping[_user];
+    }
+
 }

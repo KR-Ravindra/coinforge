@@ -13,15 +13,21 @@ function Trade({ toggleTrade, token, provider, factory }) {
     const totalCost = cost * BigInt(amount)
 
     const signer = await provider.getSigner()
-
+    try {
     const transaction = await factory.connect(signer).buy(
       token.token,
       ethers.parseUnits(amount, 18),
       { value: totalCost }
     )
-    await transaction.wait()
+    await transaction.wait()}
+    catch (error) {
+      alert(error.reason)
+      return
+    }
+    finally {
+      toggleTrade()
+    }
 
-    toggleTrade()
   }
 
   async function getSaleDetails() {
@@ -45,10 +51,11 @@ function Trade({ toggleTrade, token, provider, factory }) {
 
       <div className="token__details">
         <p className="name">{token.name}</p>
-        <p>creator: {token.creator.slice(0, 6) + '...' + token.creator.slice(38, 42)}</p>
+        <p>Creator: {token.creator.slice(0, 6) + '...' + token.creator.slice(38, 42)}</p>
         <img src={token.image} alt="Pepe" width={256} height={256} />
-        <p>marketcap: {ethers.formatUnits(token.raised, 18)} ETH</p>
-        <p>base cost: {ethers.formatUnits(cost, 18)} ETH</p>
+        <p>Token: {token.token}</p>
+        <p>Market Cap: {ethers.formatUnits(token.raised, 18)} ETH</p>
+        <p>Base Cost: {ethers.formatUnits(cost, 18)} ETH</p>
       </div>
 
       {token.sold >= limit || token.raised >= target ? (

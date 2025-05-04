@@ -277,3 +277,10 @@ main .listings h1 {
   padding: 1.50em;
   border-radius: 6px;
 }
+
+.horizantalList{
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2em;
+}

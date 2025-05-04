@@ -27,7 +27,7 @@ describe("Factory", function () {
   }
 
   async function buyTokenFixture() {
-    const { factory, token, creator, buyer } = await deployFactoryFixture()
+    const { factory, token, creator, buyer, userOwnedTokens } = await deployFactoryFixture()
 
     const AMOUNT = ethers.parseUnits("10000", 18)
     const COST = ethers.parseUnits("1", 18)
@@ -36,7 +36,13 @@ describe("Factory", function () {
     const transaction = await factory.connect(buyer).buy(await token.getAddress(), AMOUNT, { value: COST })
     await transaction.wait()
 
-    return { factory, token, creator, buyer }
+    //Buy another token
+    const {factory: factory2, token: token2} = await deployFactoryFixture()
+    const transaction2 = await factory2.connect(buyer).buy(await token2.getAddress(), AMOUNT, { value: COST })
+    await transaction2.wait()
+    console.log("Token2: ", await token2.getAddress())
+
+    return { factory, token, creator, buyer, userOwnedTokens }
   }
 
   describe("Deployment", function () {
@@ -168,5 +174,23 @@ describe("Factory", function () {
 
       expect(balance).to.equal(0)
     })
+  })
+
+  describe("User to Token List functionalities", function () {
+    it("Should correctly manage user-owned tokens", async function () {
+    const [deployer, creator, buyer] = await ethers.getSigners()
+
+    // Deploy factory
+    const Factory = await ethers.getContractFactory("Factory")
+    const factory = await Factory.deploy(FEE)
+
+    // Create token
+    const transaction = await factory.connect(deployer).create("DAPP Uni", "DAPP", { value: FEE })
+    await transaction.wait()
+    const transaction2 = await factory.connect(deployer).create("DAPP Uni 2", "DAPP", { value: FEE })
+    await transaction2.wait()
+    
+    console.log("User Owned Tokens: ", await factory.getTokensOwnedByUser(deployer.address))
+    });
   })
 })

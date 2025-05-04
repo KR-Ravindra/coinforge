@@ -8,6 +8,7 @@ import Header from "./components/Header"
 import List from "./components/List"
 import Token from "./components/Token"
 import Trade from "./components/Trade"
+import UserToken from "./components/UserToken";  
 
 // ABIs & Config
 import Factory from "./abis/Factory.json"
@@ -23,6 +24,8 @@ export default function Home() {
   const [token, setToken] = useState(null)
   const [showCreate, setShowCreate] = useState(false)
   const [showTrade, setShowTrade] = useState(false)
+  const [userOwnedTokens, setUserOwnedTokens] = useState([])
+  const [showUserOwnedTokens, setShowUserOwnedTokens] = useState(false)
 
   function toggleCreate() {
     showCreate ? setShowCreate(false) : setShowCreate(true)
@@ -55,7 +58,7 @@ export default function Home() {
 
     // We'll get the first 6 tokens listed
     for (let i = 0; i < totalTokens; i++) {
-      if (i == 6) {
+      if (i == 600) {
         break
       }
 
@@ -70,7 +73,7 @@ export default function Home() {
         sold: tokenSale.sold,
         raised: tokenSale.raised,
         isOpen: tokenSale.isOpen,
-        image: images[i]
+        image: localStorage.getItem(`image-${tokenSale.name}`),
       }
 
       tokens.push(token)
@@ -79,6 +82,13 @@ export default function Home() {
     // We reverse the array so we can get the most
     // recent token listed to display first
     setTokens(tokens.reverse())
+  }
+
+  async function updateUserOwnedTokens() {
+    console.log("Account: ", account)
+    const tokenListByUser = await factory.getTokensOwnedByUser(account)
+    console.log("User Owned Tokens: ", tokenListByUser)
+    setUserOwnedTokens(tokenListByUser)
   }
 
   useEffect(() => {
@@ -97,13 +107,46 @@ export default function Home() {
             ) : !account ? (
               "[ please connect ]"
             ) : (
-              "[ start a new token ]"
+              "[ Forge a new token ]"
             )}
           </button>
         </div>
+        {account && (
+          <div className="UserOwnedTokens">
+            <div className="userOwnedTokensContainer">
+              <button
+                onClick={() => {
+                  updateUserOwnedTokens();
+                  if (userOwnedTokens.length > 0) {
+                    setShowUserOwnedTokens(!showUserOwnedTokens);
+                  } else {
+                    console.log("No tokens owned");
+                  }
+                }}
+                className="btn--fancy"
+              >
+                <p>Check your tokens</p>
+              </button>
+
+              {showUserOwnedTokens && (
+                <div className="userOwnedTokensList">
+                  {userOwnedTokens.map((token, index) => (
+                    <UserToken
+                      token = {token.token}
+                      amount = {token.amount}
+                      name = {token.name}
+                      image = {localStorage.getItem(`image-${token.name}`)}
+                      key = {index}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         <div className="listings">
-          <h1>new listings</h1>
+          <h1>All Tokens on the Launchpad</h1>
 
           <div className="tokens">
             {!account ? (
@@ -129,6 +172,8 @@ export default function Home() {
         {showTrade && (
           <Trade toggleTrade={toggleTrade} token={token} provider={provider} factory={factory} />
         )}
+
+        
       </main>
     </div>
   );
