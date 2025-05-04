@@ -3,7 +3,7 @@ name: Build, Push and Deploy CoinForge
 on:
   push:
     branches:
-      - release
+      - final
   workflow_dispatch:
 
 jobs:
