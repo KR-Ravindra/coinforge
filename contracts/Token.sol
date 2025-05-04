@@ -3,7 +3,7 @@ pragma solidity 0.8.27;
 
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract Token is ERC20{
+contract Token is ERC20 {
     address payable public owner;
     address public creator;
 
@@ -18,5 +18,4 @@ contract Token is ERC20{
 
         _mint(msg.sender, _totalSupply);
     }
-
 }
