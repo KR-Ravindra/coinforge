@@ -116,4 +116,4 @@ jobs:
 
           kubectl delete deployment coinforge --ignore-not-found
           kubectl create deployment coinforge --image=${{ secrets.DOCKER_USERNAME }}/coinforge:${{ env.new_version }} --port=3000
-          kubectl expose deployment coinforge --type=LoadBalancer --name=coinforge-service --port=3000
+          kubectl expose deployment coinforge --type=LoadBalancer --name=coinforge-service --port=3000 || true
