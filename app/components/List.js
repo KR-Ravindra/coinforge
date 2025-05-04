@@ -1,5 +1,8 @@
+
+import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { useState } from "react";
+import uploadImage from "../uploadImage";
+
 
 function List({ toggleCreate, fee, provider, factory }) {
   const [imagePreview, setImagePreview] = useState(null); // State to store the image preview
@@ -14,24 +17,19 @@ function List({ toggleCreate, fee, provider, factory }) {
       return;
     }
 
-    // Use FileReader to read the file locally
-    const reader = new FileReader();
-    reader.onload = () => {
-      const imageData = reader.result; // Base64 string of the image
-      console.log("Image data (Base64): ", imageData);
-
-      // Save the Base64 string locally
-      localStorage.setItem(`image-${name}`, imageData); // Save to localStorage
-      console.log(`Image saved locally with key: image-${name}`);
-    };
-    reader.readAsDataURL(selectedImage); // Read the file as a Base64 string
-
-    const signer = await provider.getSigner();
-
-    const transaction = await factory.connect(signer).create(name, ticker, { value: fee });
-    await transaction.wait();
-
-    toggleCreate();
+    const fileName = `image-${name}.png`;
+    try {
+      const imageUrl = await uploadImage(selectedImage, fileName);
+      console.log('Image uploaded to:', imageUrl);
+  
+      const signer = await provider.getSigner();
+      const transaction = await factory.connect(signer).create(name, ticker, { value: fee });
+      await transaction.wait();
+  
+      toggleCreate();
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
   }
 
   function handleImageChange(event) {
@@ -78,5 +76,6 @@ function List({ toggleCreate, fee, provider, factory }) {
     </div>
   );
 }
+
 
 export default List;

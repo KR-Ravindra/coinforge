@@ -13,7 +13,6 @@ import UserToken from "./components/UserToken";
 // ABIs & Config
 import Factory from "./abis/Factory.json"
 import config from "./config.json"
-import images from "./images.json"
 
 export default function Home() {
   const [provider, setProvider] = useState(null)
@@ -73,7 +72,7 @@ export default function Home() {
         sold: tokenSale.sold,
         raised: tokenSale.raised,
         isOpen: tokenSale.isOpen,
-        image: localStorage.getItem(`image-${tokenSale.name}`),
+        image: `image-${tokenSale.name}`,
       }
 
       tokens.push(token)
@@ -135,7 +134,7 @@ export default function Home() {
                       token = {token.token}
                       amount = {token.amount}
                       name = {token.name}
-                      image = {localStorage.getItem(`image-${token.name}`)}
+                      image = {`image-${token.name}`}
                       key = {index}
                     />
                   ))}

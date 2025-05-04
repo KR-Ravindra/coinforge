@@ -4,7 +4,7 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'pump.mypinata.cloud',
+                hostname: 'violet-defiant-pinniped-328.mypinata.cloud',
                 port: ''
             }
         ]

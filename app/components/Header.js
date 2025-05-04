@@ -9,7 +9,7 @@ function Header({ account, setAccount }) {
 
   return (
     <header>
-      <p className="brand">fun.pump</p>
+      <p className="brand">CoinForge</p>
 
       {account ? (
         <button onClick={connectHandler} className="btn--fancy">[ {account.slice(0, 6) + '...' + account.slice(38, 42)} ]</button>

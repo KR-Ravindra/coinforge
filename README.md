@@ -1,4 +1,4 @@
-# fun.pump
+# CoinForge
 
 ## Technology Stack & Tools
 
