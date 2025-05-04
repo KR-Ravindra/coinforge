@@ -76,7 +76,11 @@ jobs:
     
       - name: Deploy contracts to Hardhat
         run: |
-          npx hardhat ignition deploy ignition/modules/Factory.js --network remote
+          CONTRACT_ID=`npx hardhat ignition deploy ignition/modules/Factory.js --network remote | grep FactoryModule | grep -o "0x[0-9a-fA-F]*"`
+          echo $CONTRACT_ID
+          sed -i "s/CONTRACT_ID/$CONTRACT_ID/g" app/config.json
+          cat app/config.json
+    
     
       - name: Get ABI file and use jq to extract the ABI
         run: |
