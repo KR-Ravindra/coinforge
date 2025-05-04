@@ -1,7 +1,7 @@
 {
     "31337": {
         "factory": {
-            "address": "ID"
+            "address": "CONTRACT_ID"
         }
     }
 }
