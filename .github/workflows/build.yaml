@@ -70,6 +70,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
     
+      - name: Install dependencies
+        run: |
+          npm install
+    
       - name: Deploy contracts to Hardhat
         run: |
           npx hardhat ignition deploy ignition/modules/Factory.js --network remote
