@@ -1,5 +1,49 @@
 # CoinForge
 
+## About project
+
+To run, find steps [here](#to-run).
+
+This project, CoinForge, aims to create a decentralized marketplace for the simplified
+creation and immediate trading of novel digital assets.
+
+This project is to build a decentralized marketplace, CoinForge, where users can easily
+define and launch new digital assets. The marketplace's core features will be:
+
+1. Streamlined Asset Definition: An intuitive interface for users to specify the
+properties of their digital asset for listing on the marketplace
+2. Automated Trading Mechanism: Implementing an innovative contract-based
+system that facilitates the immediate buying and selling of these assets within
+the marketplace based on a predefined algorithm or model.
+3. Basic Marketplace Interface: A web interface allowing users to connect their
+wallets and interact with the marketplace's asset creation and trading
+functionalities.
+
+The initial scope will concentrate on these fundamental marketplace aspects, with
+potential future expansions considering features like asset discovery, community
+engagement, and enhanced trading tools.
+
+## Business Philosophy and Working
+
+![coinforge.png](./assets/coinforge.png)
+
+- `Owner` owns the `Factory` contract which makes use of `Token` contract that implmenets `ERC20` tokens.
+
+- `Investors/Creators` are the audience for this website, who visit and either creates a new token/coin or invests in existing token.
+
+- Every ERC20 Token thus created will be available for purchase until it reaches popularity (Funded upto 3.0 ETH) or till the Creator chooses not to dilute the token.
+
+- In the end, successfully funded tokens can be transfered to Mainnets like Ethereum etc.,
+
+## Token & Economy
+
+- A Token value, referred as `base-cost` will increase as `investors` keep investing. It is calculated against the available `market-cap` available in a given Token.
+
+- On creation every token will have `market cap` of `500,000 WEI`; all of them assigned to the Creator. When a purchase is made for `x` number of tokens, creator sells them for a value and investors inherit `x` number of tokens in their posession. Thus value of token goes up.
+
+- On successful funding, creator can - wishe to dilute the token and take the revenue generated so far or migrate the token to a mainnet like Ethereum.
+
+
 ## Technology Stack & Tools
 
 - Solidity (Writing Smart Contracts & Tests)
@@ -8,10 +52,21 @@
 - [Ethers.js](https://docs.ethers.io/v5/) (Blockchain Interaction)
 - [Next.js](https://nextjs.org/) (Frontend Framework)
 
-## Requirements For Initial Setup
-- Install [NodeJS](https://nodejs.org/en/). We recommend using an LTS (long-term-support) version, and preferably installing NodeJS via [NVM](https://github.com/nvm-sh/nvm#intro).
+## Testing and TestCases
 
-## Setting Up
+All the functions within Factory contract are tested and can be found over [here](./test/Factory.js) 
+
+![test](./assets/test.png)
+
+## UI and Workflow
+
+To be added.
+
+## PreRequesties
+- NodeJS
+
+## To Run
+
 ### 1. Clone/Download the Repository
 
 ### 2. Install Dependencies:
@@ -36,26 +91,3 @@ If you want to make changes at remote, use `--network remote`
 
 ### 6. Start frontend
 `$ npm run dev`
-
-
-## About porject
-
-This project, CoinForge, aims to create a decentralized marketplace for the simplified
-creation and immediate trading of novel digital assets.
-
-This project is to build a decentralized marketplace, CoinForge, where users can easily
-define and launch new digital assets. The marketplace's core features will be:
-
-1. Streamlined Asset Definition: An intuitive interface for users to specify the
-properties of their digital asset for listing on the marketplace
-2. Automated Trading Mechanism: Implementing an innovative contract-based
-system that facilitates the immediate buying and selling of these assets within
-the marketplace based on a predefined algorithm or model.
-3. Basic Marketplace Interface: A web interface allowing users to connect their
-wallets and interact with the marketplace's asset creation and trading
-functionalities.
-
-The initial scope will concentrate on these fundamental marketplace aspects, with
-potential future expansions considering features like asset discovery, community
-engagement, and enhanced trading tools.
-
