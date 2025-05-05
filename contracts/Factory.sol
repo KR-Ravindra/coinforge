@@ -168,27 +168,53 @@ contract Factory {
         }
     }
 
-    function deposit(address _token) external {
-        // The remaining token balance and the ETH raised
-        // would go into a liquidity pool like Uniswap V3.
-        // For simplicity we'll just transfer remaining
-        // tokens and ETH raised to the creator.
+function deposit(address _token) external {
+    Token token = Token(_token);
+    TokenSale memory sale = tokenToSale[_token];
 
-        Token token = Token(_token);
-        TokenSale memory sale = tokenToSale[_token];
+    require(msg.sender == sale.creator, "Factory: Only the creator can get deposit");
+    require(sale.isOpen == false, "Factory: Target not reached");
 
-        require(sale.isOpen == false, "Factory: Target not reached");
+    // Transfer tokens
+    token.transfer(sale.creator, token.balanceOf(address(this)));
 
-        // Transfer tokens
-        token.transfer(sale.creator, token.balanceOf(address(this)));
+    // Transfer ETH raised
+    (bool success, ) = payable(sale.creator).call{value: sale.raised}("");
+    require(success, "Factory: ETH transfer failed");
 
-        // Transfer ETH raised
-        (bool success, ) = payable(sale.creator).call{value: sale.raised}("");
-        require(success, "Factory: ETH transfer failed");
+    // Remove the token from the tokens array
+    for (uint256 i = 0; i < tokens.length; i++) {
+        if (tokens[i] == _token) {
+            tokens[i] = tokens[tokens.length - 1];
+            tokens.pop();
+            break;
+        }
     }
 
+    // Remove the token from the user's mapping
+    for (uint256 i = 0; i < userOwnedTokensMapping[sale.creator].length; i++) {
+        if (userOwnedTokensMapping[sale.creator][i].token == _token) {
+            if (userOwnedTokensMapping[sale.creator].length > 1) {
+                userOwnedTokensMapping[sale.creator][i] = userOwnedTokensMapping[sale.creator][userOwnedTokensMapping[sale.creator].length - 1];
+            }
+            userOwnedTokensMapping[sale.creator].pop();
+            break;
+        }
+    }
+
+   totalTokens--;
+   for (uint256 i = 0; i < tokens.length; i++) {
+        if (tokens[i] == _token) {
+            tokens[i] = tokens[tokens.length - 1];
+            tokens.pop();
+            break;
+        }
+    }
+
+}
+
     function withdraw(uint256 _amount) external {
-        require(msg.sender == owner, "Factory: Not owner");
+        require(msg.sender == owner, "Factory: Not owner, only owner can withdraw coins");
 
         (bool success, ) = payable(owner).call{value: _amount}("");
         require(success, "Factory: ETH transfer failed");
@@ -205,17 +231,17 @@ function transferToken(address _token, address _newOwner) external payable {
     sale.creator = _newOwner;
 
     // Update the userOwnedTokensMapping
-    // Remove the token from the current owner's mapping
     for (uint256 i = 0; i < userOwnedTokensMapping[msg.sender].length; i++) {
         if (userOwnedTokensMapping[msg.sender][i].token == _token) {
-            // Remove the token from the current owner
-            userOwnedTokensMapping[msg.sender][i] = userOwnedTokensMapping[msg.sender][userOwnedTokensMapping[msg.sender].length - 1];
+            if (userOwnedTokensMapping[msg.sender].length > 1) {
+                userOwnedTokensMapping[msg.sender][i] = userOwnedTokensMapping[msg.sender][userOwnedTokensMapping[msg.sender].length - 1];
+            }
             userOwnedTokensMapping[msg.sender].pop();
             break;
         }
     }
-    addTokenToUser(_newOwner, _token, TOKEN_LIMIT, sale.name);
 
+    addTokenToUser(_newOwner, _token, TOKEN_LIMIT, sale.name);
 }
 
     function getTokensOwnedByUser(address _user) external view returns (UserOwnedTokens[] memory) {

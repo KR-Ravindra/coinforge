@@ -234,5 +234,4 @@ it("Should transfer token ownership", async function () {
   const updatedSale = await factory.tokenToSale(tokenAddress);
   expect(updatedSale.creator).to.equal(buyer.address);
 });
-
 })

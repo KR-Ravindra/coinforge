@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 
+
 function Trade({ toggleTrade, token, provider, factory }) {
   const [target, setTarget] = useState(0);
   const [limit, setLimit] = useState(0);
@@ -27,6 +28,7 @@ function Trade({ toggleTrade, token, provider, factory }) {
       return;
     } finally {
       toggleTrade();
+      loadBlockchainData();
     }
   }
 
@@ -62,6 +64,21 @@ function Trade({ toggleTrade, token, provider, factory }) {
     setCost(cost);
   }
 
+  async function targetReached(token) {
+    const signer = await provider.getSigner();
+    try {
+      const transaction = await factory.connect(signer).deposit(token.token);
+      await transaction.wait();
+      alert("Funds deposited successfully!");
+    } catch (error) {
+      console.error("Error depositing funds:", error);
+      alert(error.reason);
+    } finally {
+      toggleTrade();
+    }
+
+  }
+
   useEffect(() => {
     getSaleDetails();
   }, []);
@@ -80,7 +97,8 @@ function Trade({ toggleTrade, token, provider, factory }) {
       </div>
 
       {token.sold >= limit || token.raised >= target ? (
-        <p className="disclaimer">target reached!</p>
+        <button className="btn--fancy" onClick={() => targetReached(token)}>Target Reached, Take your funds now!</button>
+
       ) : (
         <form action={buyHandler}>
           <input type="number" name="amount" min={1} max={10000} placeholder="1" defaultValue={1} />
