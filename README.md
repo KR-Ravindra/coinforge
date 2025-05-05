@@ -101,18 +101,18 @@ All the functions within Factory contract are tested and can be found over [here
 
 Make sure you have [configured your wallet](#wallet-configuration), if testing [live site](https://kr-r.me)
 
-### 1. Clone/Download the Repository
+1. Clone/Download the Repository
 
-### 2. Install Dependencies:
+2. Install Dependencies:
 `$ npm install`
 
-### 3. Run tests
+3. Run tests
 `$ npx hardhat test`
 
-### 4. Start Hardhat node
+4. Start Hardhat node
 `$ npx hardhat node`
 
-### 5. Run deployment script
+5. Run deployment script
 In a separate terminal execute for local test:
 
 `$ npx hardhat ignition deploy ignition/modules/Factory.js --network localhost`
@@ -123,5 +123,5 @@ If you have previously deployed you may want to append `--reset` at the end:
 
 If you want to make changes at remote, use `--network remote`
 
-### 6. Start frontend
+6. Start frontend
 `$ npm run dev`
