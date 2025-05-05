@@ -1,7 +1,9 @@
 :root {
-  --background: #1B1D29;
+  --background: #0A3D62;
   --foreground: #ededed;
 }
+
+
 
 html,
 body {
@@ -12,7 +14,7 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: "Nabla", Arial, Helvetica, sans-serif;
+  font-family: "Rubik Wet Paint", Roboto, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -26,11 +28,15 @@ body {
 h1,
 h2,
 h3 {
-  font-family: "Nabla";
+  font-family: "Rubik Wet Paint";
 }
 
 h2 {
   font-size: 2rem;
+}
+
+p {
+  font-size: 1.2em;
 }
 
 .page {
@@ -51,13 +57,13 @@ header {
 }
 
 header .brand {
-  font-family: "Nabla";
-  font-size: 2rem;
-  transform: rotate(-5deg);
+  font-family: "Rubik Wet Paint";
+  font-size: 2.4rem;
+  /* transform: rotate(-5deg); */
 }
 
 .brand {
-  font-family: "Nabla";
+  font-family: "Rubik Wet Paint";
   font-size: 2rem;
   color: yellow;
 }
@@ -66,9 +72,9 @@ header .brand {
 
 .btn--fancy,
 input[type="submit"] {
-  font-family: "Nabla";
-  font-size: 1.5rem;
-
+  font-family: "Rubik Wet Paint";
+  font-size: 2.5rem;
+  color: yellow;
   background: transparent;
   border: none;
 
@@ -78,11 +84,11 @@ input[type="submit"] {
 }
 
 header .btn--fancy {
-  transform: rotate(5deg);
+  /* transform: rotate(5deg); */
 }
 
 main .create .btn--fancy {
-  font-size: 2rem;
+  font-size: 2.7rem;
 }
 
 .btn--fancy:hover,
@@ -115,7 +121,7 @@ main .listings {
 }
 
 main .listings h1 {
-  font-family: "Arial";
+  font-family: "Roboto";
   font-weight: 800;
   padding: 1em;
 }
@@ -131,7 +137,7 @@ main .listings h1 {
 
 .tokens p {
   grid-column: 1 / -1;
-  font-family: "Arial";
+  font-family: "Roboto";
   font-size: 1.50rem;
 }
 
@@ -178,21 +184,24 @@ main .listings h1 {
 }
 
 .token__details {
-  font-family: "Arial";
+  font-family: "Roboto";
   font-weight: 400;
   text-align: center;
 }
 
 .token__details p {
   font-size: 0.95rem;
-  text-transform: lowercase;
+  text-transform: titlecase;
   padding: 0.5em;
   width: 100%;
 }
 
 .token__details .name {
   font-size: 1.40rem;
+  color: yellow;
 }
+
+
 
 /* CREATE TOKEN FORM */
 
@@ -213,10 +222,10 @@ main .listings h1 {
 }
 
 .list__description {
-  font-family: "Arial";
+  font-family: "Roboto";
   font-size: 1.10rem;
   font-weight: 400;
-  text-transform: lowercase;
+  text-transform: titlecase;
   padding: 1em 0 0;
 }
 
@@ -257,9 +266,9 @@ main .listings h1 {
 }
 
 .trade p {
-  font-family: "Arial";
+  font-family: "Roboto";
   font-size: 1.10rem;
-  text-transform: lowercase;
+  text-transform: titlecase;
 }
 
 .trade .disclaimer {

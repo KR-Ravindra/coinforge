@@ -110,11 +110,11 @@ function Trade({ toggleTrade, token, provider, factory }) {
 
       <div className="token__details">
         <p className="name">{token.name}</p>
-        <p>Creator: {token.creator.slice(0, 6) + "..." + token.creator.slice(38, 42)}</p>
+        <p className="subtext">Creator: {token.creator.slice(0, 6) + "..." + token.creator.slice(38, 42)}</p>
         <img src={`https://kr-r.me/files/${token.image}.png?token=12345`} alt="Pepe" width={256} height={256} />
-        <p>Token: {token.token}</p>
-        <p>Market Cap: {ethers.formatUnits(token.raised, 18)} ETH</p>
-        <p>Base Cost: {ethers.formatUnits(cost, 18)} ETH</p>
+        <p className="subtext">Token: {token.token}</p>
+        <p className="subtext">Market Cap: {ethers.formatUnits(token.raised, 18)} ETH</p>
+        <p className="subtext">Base Cost: {ethers.formatUnits(cost, 18)} ETH</p>
       </div>
 
       {token.sold >= limit || token.raised >= target ? (
@@ -123,7 +123,7 @@ function Trade({ toggleTrade, token, provider, factory }) {
       ) : (
         <form action={buyHandler}>
           <input type="number" name="amount" min={1} max={10000} placeholder="1" defaultValue={1} />
-          <input type="submit" value="[ buy ]" />
+          <input type="submit" value="💰 buy " />
         </form>
       )}
 

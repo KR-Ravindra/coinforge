@@ -1,7 +1,7 @@
-import { Nabla } from "next/font/google";
+import { Rubik_Wet_Paint } from "next/font/google";
 import "./globals.css";
 
-const nabla = Nabla({ subsets: ['latin'] })
+const nabla = Rubik_Wet_Paint({ subsets: ['latin'], weight: '400' })
 
 export const metadata = {
   title: "CoinForge",

@@ -101,13 +101,13 @@ export default function Home() {
 
       <main>
         <div className="create">
-          <button onClick={factory && account && toggleCreate} className="btn--fancy">
+          <button onClick={factory && account && toggleCreate} className="btn--fancy" >
             {!factory ? (
-              "[ contract not deployed ]"
+              "❓ contract not deployed ❓"
             ) : !account ? (
-              "[ Wallet Connection Pending... ]"
+              "⌛ Wallet Connection Pending... "
             ) : (
-              "[ Forge a new token ]"
+              "⛏💎  Forge a new token  ⛏💎"
             )}
           </button>
         </div>
@@ -125,7 +125,7 @@ export default function Home() {
                 }}
                 className="btn--fancy"
               >
-                <p>View your tokens</p>
+                <p>🔭  View your tokens  </p>
               </button>
 
               {showUserOwnedTokens && (
@@ -147,13 +147,13 @@ export default function Home() {
         )}
        { account && (
         <div className="listings">
-          <p className="brand">All Tokens on the Launchpad</p>
+          <p className="brand">🔥  All Tokens on the Launchpad 🔥</p>
 
           <div className="tokens">
             {!account ? (
-              <p className="brand">Awaiting wallet connection</p>
+              <p className="brand"> 👀 Awaiting wallet connection... </p>
             ) : tokens.length === 0 ? (
-              <p className="brand">No tokens listed</p>
+              <p className="brand">No tokens listed 📭</p>
             ) : (
               tokens.map((token, index) => (
                 <Token
