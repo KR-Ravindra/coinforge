@@ -79,6 +79,27 @@ function Trade({ toggleTrade, token, provider, factory }) {
 
   }
 
+  async function migrate(token) {
+    const signer = await provider.getSigner();
+    if(token.creator !== await signer.getAddress()) {
+      console.log(await token.creator);
+      alert("You are not the owner of this token!");
+      return;
+    }
+    try {
+      const transaction = await factory.connect(signer).deposit(token.token);
+      await transaction.wait();
+      alert("Migrated to main network successfully!");
+    } catch (error) {
+      console.error("Error migrating coin:", error);
+      alert(error.reason);
+    } finally {
+      toggleTrade();
+    }
+
+  }  
+
+
   useEffect(() => {
     getSaleDetails();
   }, []);
@@ -120,6 +141,11 @@ function Trade({ toggleTrade, token, provider, factory }) {
           />
           <input type="submit" value="[ submit transfer ]" />
         </form>
+      )}
+      {token.sold >= limit || token.raised >= target && (
+      < button className="btn--fancy" onClick={() => migrate(token)}>
+      [Migrate to main network!]
+      </button>
       )}
 
       <button onClick={toggleTrade} className="btn--fancy">
