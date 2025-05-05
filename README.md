@@ -3,6 +3,7 @@
 ## About project
 
 To run, find steps [here](#to-run).
+View application [kr-r.me](https://kr-r.me)
 
 This project, CoinForge, aims to create a decentralized marketplace for the simplified
 creation and immediate trading of novel digital assets.
@@ -43,6 +44,34 @@ engagement, and enhanced trading tools.
 
 - On successful funding, creator can - wishe to dilute the token and take the revenue generated so far or migrate the token to a mainnet like Ethereum.
 
+## Wallet Configuration
+
+The wallet on which this application is a custom testnet based on top of hardhat.
+
+Configuration is as below:
+
+Network Name: `KR Testnet`
+Default RPC URL: `http://kr-r.me:8545`
+Chain ID: `31337`
+Currency Symbol: `ETH`
+
+If you want a test account to play with 
+
+```
+Account #0: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 (10000 ETH)
+Private Key: 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+
+Account #1: 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 (10000 ETH)
+Private Key: 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d
+```
+
+
+## Hosting Information
+
+The website is hosted on a custom testnet created using `hardhat` on a remote machine behind [kr-r.me](https://kr-r.me/).
+
+A CICD workflow is designed for this over here - 
+![cicd](./assets/cicd.png)
 
 ## Technology Stack & Tools
 
@@ -58,14 +87,18 @@ All the functions within Factory contract are tested and can be found over [here
 
 ![test](./assets/test.png)
 
-## UI and Workflow
+## UI Screens
 
-To be added.
+![ui](./assets/ui.png)
+
+![trade](./assets/trade.png)
 
 ## PreRequesties
 - NodeJS
 
 ## To Run
+
+Make sure you have [configured your wallet](#wallet-configuration), if testing [live site](https://kr-r.me)
 
 ### 1. Clone/Download the Repository
 

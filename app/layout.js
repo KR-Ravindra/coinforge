@@ -5,7 +5,10 @@ const nabla = Rubik_Wet_Paint({ subsets: ['latin'], weight: '400' })
 
 export const metadata = {
   title: "CoinForge",
-  description: "create token listings",
+  description: "Token Marketplace",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }) {
