@@ -1,10 +1,10 @@
-// curl -Ffile=@sample.txt 'http://kr-r.me/upload?token=12345'
+// curl -Ffile=@sample.txt 'https://kr-r.me/upload?token=12345'
 async function uploadImage(file, fileName) {
     const formData = new FormData();
     formData.append("file",file, fileName);
   
     try {
-      const response = await fetch(`http://kr-r.me/upload?token=12345`, {
+      const response = await fetch(`https://kr-r.me/upload?token=12345`, {
         method: "POST",
         body: formData,
       });
